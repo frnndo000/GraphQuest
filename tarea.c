@@ -46,7 +46,7 @@ void leer_escenarios() {
   while ((campos = leer_linea_csv(archivo, ',')) != NULL) {
     printf("ID: %d\n", atoi(campos[0]));
     printf("Nombre: %s\n", campos[1]);
-    printf("Descripción: %s\n", campos[2]);
+    printf("Descripcion: %s\n", campos[2]);
 
     List* items = split_string(campos[3], ";");
 
@@ -85,15 +85,22 @@ void leer_escenarios() {
 
 }
 
+void iniciar_partida() {
+  Jugador jugador ;
+  jugador.tiempo = MAX_TIEMPO ;
+  jugador.inventario = list_create() ;
+  //jugador.escenario_actual = buscar_escenario_por_id(1) ;
+  printf("funciona") ;
+  return ;
+}
 
 int main() {
   int opcion ;
   while (1) { 
     printf("\n=== GraphQuest ===\n1. Cargar Laberinto\n2. Iniciar Partida\n3. Salir\nOpcion: ") ;
     scanf("%d", &opcion) ;
-    if (opcion == 1) 
-        leer_escenarios() ;
-    //else if (opcion == 2)     iniciar_partida() ;
+    if (opcion == 1) leer_escenarios() ;
+    else if (opcion == 2) iniciar_partida() ;
     else if (opcion == 3) break ;
     else printf("Opcion invalida.\n") ;
   }
