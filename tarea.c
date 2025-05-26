@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 #define MAX_TIEMPO 10
 
@@ -141,6 +142,34 @@ void recoger_items(Jugador *jugador) {
   printf("Item no encontrado.\n") ;
 }
 
+int calcular_tiempo_movimiento(Jugador *jugador) {
+  int peso_total = 0 ;
+  Item *item = list_first(jugador->inventario) ;
+  for (item ; item != NULL ; item = list_next(jugador->inventario)) {
+    peso_total += item->peso ;
+  }
+    
+  return (int)ceil((peso_total + 1) / 10.0) ;
+}
+
+void mover(Jugador *jugador, int direccion) {
+  Escenario* e = jugador->escenario_actual ;
+  int sig_id = -1 ;
+  if (direccion == 1) sig_id = e->arriba ;
+  else if (direccion == 2) sig_id = e->abajo ;
+  else if (direccion == 3) sig_id = e->izquierda ;
+  else if (direccion == 4) sig_id = e->derecha ;
+
+  if (sig_id == -1) {
+    printf("Movimiento invalido.\n");
+    return;
+  }
+  int costo = calcular_tiempo_movimiento(jugador) ;
+  jugador->tiempo -= costo ;
+  jugador->escenario_actual = buscar_escenario_por_id(sig_id) ;
+  printf("Te has movido a %s. (-%d tiempo)\n", jugador->escenario_actual->nombre, costo) ;
+}
+
 
 void iniciar_partida() {
   Jugador jugador ;
@@ -165,16 +194,15 @@ void iniciar_partida() {
     //printf("Seleccionaste la opcion: %d", opcion) ;
 
     if (opcion == 1) recoger_items(&jugador) ;
-    /*else if (opcion == 2) descartar_items(&jugador) ;
+    //else if (opcion == 2) descartar_items(&jugador) ;
     else if (opcion == 3) {
       printf("Direccion (1. Arriba, 2. Abajo, 3. Izquierda, 4. Derecha): ");
       int direccion;
       scanf("%d", &direccion) ;
       mover(&jugador, direccion) ;
-    }*/
+    }
     else if (opcion == 5) break;
     else printf("Opción inválida.\n");
-    break ;
   }
 }
 
