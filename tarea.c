@@ -87,22 +87,15 @@ void leer_escenarios() {
 
 
 int main() {
-  leer_escenarios() ;
   int opcion ;
   while (1) { 
     printf("\n=== GraphQuest ===\n1. Cargar Laberinto\n2. Iniciar Partida\n3. Salir\nOpcion: ") ;
     scanf("%d", &opcion) ;
-    printf("%d", opcion) ;
-    break ;
-  }
-    /* if (opcion == 1) 
+    if (opcion == 1) 
         leer_escenarios() ;
-    else if (opcion == 2) 
-        iniciar_partida() ;
-    else if (opcion == 3) 
-        break ;
+    //else if (opcion == 2)     iniciar_partida() ;
+    else if (opcion == 3) break ;
     else printf("Opcion invalida.\n") ;
-  */
-
+  }
   return 0 ;
 }
