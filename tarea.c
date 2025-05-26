@@ -30,6 +30,8 @@ typedef struct {
   int tiempo ;
 } Jugador;
 
+List* escenarios ;
+
 /**
  * Carga canciones desde un archivo CSV
  */
