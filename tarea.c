@@ -114,7 +114,7 @@ void mostrar_estado(Jugador *jugador) {
 
   printf("\nOpciones de movimiento:\n") ;
   if (e->arriba != -1) 
-    printf("1. Arriba") ;
+    printf("1. Arriba\n") ;
   if (e->abajo != -1) 
     printf("2. Abajo\n") ;
   if (e->izquierda != -1) 
@@ -135,7 +135,7 @@ void iniciar_partida() {
     }
     if (jugador.escenario_actual->es_final) {
       printf("\nLlegaste al escenario final\n") ;
-      mostrar_estado(&jugador) ; break;
+      mostrar_estado(&jugador) ; break ;
     }
 
     mostrar_estado(&jugador) ;
@@ -143,7 +143,18 @@ void iniciar_partida() {
     printf("\n1. Recoger item\n2. Descartar item\n3. Mover\n4. Reiniciar\n5. Salir\nOpcion: ") ;
     int opcion ;
     scanf("%d", &opcion) ;
-    printf("Seleccionaste la opcion: %d", opcion) ;
+    
+
+    if (opcion == 1) printf("Seleccionaste la opcion: %d", opcion) ;//recoger_items(&jugador) ;
+    /*else if (opcion == 2) descartar_items(&jugador) ;
+    else if (opcion == 3) {
+      printf("Direccion (1. Arriba, 2. Abajo, 3. Izquierda, 4. Derecha): ");
+      int direccion;
+      scanf("%d", &direccion) ;
+      mover(&jugador, direccion) ;
+    }*/
+    else if (opcion == 5) break;
+    else printf("Opción inválida.\n");
     break ;
   }
 }
