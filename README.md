@@ -17,6 +17,7 @@ GraphQuest es un juego desarrollado en lenguaje C que representa un laberinto me
 ### Requisitos previos:
 - Tener instalado un compilador de C (como `gcc`)
 - El archivo de laberinto `graphquest.csv` debe estar en la carpeta `data/` dentro del directorio del proyecto.
+    Descarga aqui: `https://drive.google.com/file/d/1Xu8du5BrdFG7hd1GW63gB4F5AgKRMbGZ/view.csv` .
 
 ### Pasos para compilar y ejecutar
 1. Descarga el proyecto y descomprimelo en una carpeta en tu computador
