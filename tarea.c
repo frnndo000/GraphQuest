@@ -4,6 +4,32 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define MAX_TIEMPO 10
+
+typedef struct {
+  char nombre[50] ;
+  int valor ;
+  int peso ;
+} Item;
+
+typedef struct Escenario {
+  int id ;
+  char nombre[50] ;
+  char descripcion[200] ;
+  List * items ;
+  int arriba ;
+  int abajo ;
+  int izquierda ;
+  int derecha ;
+  int es_final ;
+} Escenario;
+
+typedef struct {
+  Escenario* escenario_actual ;
+  List *inventario ;
+  int tiempo ;
+} Jugador;
+
 /**
  * Carga canciones desde un archivo CSV
  */
