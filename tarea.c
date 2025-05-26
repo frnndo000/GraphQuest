@@ -50,44 +50,41 @@ void leer_escenarios() {
 
   char **campos;
   campos = leer_linea_csv(archivo, ',');
-
+  escenarios = list_create() ;
   while ((campos = leer_linea_csv(archivo, ',')) != NULL) {
-    printf("ID: %d\n", atoi(campos[0]));
-    printf("Nombre: %s\n", campos[1]);
-    printf("Descripcion: %s\n", campos[2]);
+    Escenario* e = malloc(sizeof(Escenario)) ;
+    e->id = atoi(campos[0]) ;
+    strcpy(e->nombre, campos[1]) ;
+    strcpy(e->descripcion, campos[2]) ;
+    e->items = list_create() ;
 
-    List* items = split_string(campos[3], ";");
+    List* items_raw = split_string(campos[3], ";") ;
+    char *item_str = list_first(items_raw) ;
+    for (item_str ; item_str != NULL ; item_str = list_next(items_raw)) {
+      List* item_data = split_string(item_str, ",") ;
+      Item* item = malloc(sizeof(Item)) ;
 
-    printf("Items: \n");
-    for(char *item = list_first(items); item != NULL; 
-          item = list_next(items)){
-
-        List* values = split_string(item, ",");
-        char* item_name = list_first(values);
-        int item_value = atoi(list_next(values));
-        int item_weight = atoi(list_next(values));
-        printf("  - %s (%d pts, %d kg)\n", item_name, item_value, item_weight);
-        list_clean(values);
-        free(values);
+      strcpy(item->nombre, list_first(item_data)) ;
+      item->valor = atoi(list_next(item_data)) ;
+      item->peso = atoi(list_next(item_data)) ;
+      list_pushBack(e->items, item) ;
+      list_clean(item_data) ;
+      free(item_data) ;
     }
 
-    int arriba = atoi(campos[4]);
-    int abajo = atoi(campos[5]);
-    int izquierda = atoi(campos[6]);
-    int derecha = atoi(campos[7]);
 
-    if (arriba != -1) printf("Arriba: %d\n", arriba);
-    if (abajo != -1) printf("Abajo: %d\n", abajo);
-    if (izquierda != -1) printf("Izquierda: %d\n", izquierda);
-    if (derecha != -1) printf("Derecha: %d\n", derecha);
+    list_clean(items_raw) ;
+    free(items_raw) ;
 
-    
-    int is_final = atoi(campos[8]);
-    if (is_final) printf("Es final\n");
+    e->arriba = atoi(campos[4]) ;
 
-    list_clean(items);
-    free(items);
-    
+
+    e->abajo = atoi(campos[5]) ;
+    e->izquierda = atoi(campos[6]) ;
+    e->derecha = atoi(campos[7]) ;
+    e->es_final = strcmp(campos[8], "Si") == 0 ;
+
+    list_pushBack(escenarios, e) ;
   }
   fclose(archivo);
 
