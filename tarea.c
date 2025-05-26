@@ -213,7 +213,6 @@ void iniciar_partida() {
     printf("\n1. Recoger item\n2. Descartar item\n3. Mover\n4. Reiniciar\n5. Salir\nOpcion: ") ;
     int opcion ;
     scanf("%d", &opcion) ;
-    //printf("Seleccionaste la opcion: %d", opcion) ;
 
     if (opcion == 1) recoger_items(&jugador) ;
     else if (opcion == 2) descartar_items(&jugador) ;
@@ -222,9 +221,13 @@ void iniciar_partida() {
       int direccion;
       scanf("%d", &direccion) ;
       mover(&jugador, direccion) ;
-    }
-    else if (opcion == 5) break;
-    else printf("Opción inválida.\n");
+    } else if (opcion == 4) {
+      list_clean(jugador.inventario) ;
+      free(jugador.inventario) ;
+      iniciar_partida() ;
+      return ;
+    } else if (opcion == 5) break ;
+    else printf("Opción invalida.\n");
   }
 }
 
@@ -238,7 +241,6 @@ int main() {
       printf("Error al leer entrada.\n") ;
       continue;
     }
-
     opcion = atoi(input) ;
 
     if (opcion == 1) {
