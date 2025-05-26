@@ -41,16 +41,16 @@ Escenario* buscar_escenario_por_id(int id) {
 }
 
 void leer_escenarios() {
+  escenarios = list_create() ;
   FILE *archivo = fopen("data/graphquest.csv", "r");
   if (archivo == NULL) {
     perror(
         "Error al abrir el archivo");
     return;
   }
+  printf("Archivo abierto correctamente\n") ;
 
-  char **campos;
-  campos = leer_linea_csv(archivo, ',');
-  escenarios = list_create() ;
+  char **campos = leer_linea_csv(archivo, ',') ;
   while ((campos = leer_linea_csv(archivo, ',')) != NULL) {
     Escenario* e = malloc(sizeof(Escenario)) ;
     e->id = atoi(campos[0]) ;
@@ -72,19 +72,14 @@ void leer_escenarios() {
       free(item_data) ;
     }
 
-
-    list_clean(items_raw) ;
-    free(items_raw) ;
-
     e->arriba = atoi(campos[4]) ;
-
-
     e->abajo = atoi(campos[5]) ;
     e->izquierda = atoi(campos[6]) ;
     e->derecha = atoi(campos[7]) ;
     e->es_final = strcmp(campos[8], "Si") == 0 ;
 
     list_pushBack(escenarios, e) ;
+
   }
   fclose(archivo);
 
