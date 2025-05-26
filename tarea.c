@@ -127,7 +127,10 @@ void mostrar_estado(Jugador *jugador) {
 void recoger_items(Jugador *jugador) {
   char nombre[50] ;
   printf("Nombre del item a recoger: ") ;
-  scanf(" %49s", nombre) ;
+  getchar() ; 
+  fgets(nombre, sizeof(nombre), stdin) ;
+  nombre[strcspn(nombre, "\n")] = '\0' ;
+
   List* items = jugador->escenario_actual->items ;
   Item *item = list_first(items) ;
   for (item ; item != NULL ; item = list_next(items)) {
@@ -136,6 +139,25 @@ void recoger_items(Jugador *jugador) {
       list_popCurrent(items) ;
       jugador->tiempo-- ;
       printf("%s agregado al inventario.\n", nombre) ;
+      return ;
+    }
+  }
+  printf("Item no encontrado.\n") ;
+}
+
+void descartar_items(Jugador *jugador) {
+  char nombre[50] ;
+  printf("Nombre del item a descartar: ") ;
+  getchar() ;
+  fgets(nombre, sizeof(nombre), stdin) ;
+  nombre[strcspn(nombre, "\n")] = '\0' ;
+
+  Item *item = list_first(jugador->inventario) ;
+  for (item ; item != NULL; item = list_next(jugador->inventario)) {
+    if (strcmp(item->nombre, nombre) == 0) {
+      free(list_popCurrent(jugador->inventario)) ;
+      jugador->tiempo-- ;
+      printf("%s descartado del inventario.\n", nombre) ;
       return ;
     }
   }
@@ -194,7 +216,7 @@ void iniciar_partida() {
     //printf("Seleccionaste la opcion: %d", opcion) ;
 
     if (opcion == 1) recoger_items(&jugador) ;
-    //else if (opcion == 2) descartar_items(&jugador) ;
+    else if (opcion == 2) descartar_items(&jugador) ;
     else if (opcion == 3) {
       printf("Direccion (1. Arriba, 2. Abajo, 3. Izquierda, 4. Derecha): ");
       int direccion;
