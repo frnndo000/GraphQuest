@@ -123,6 +123,25 @@ void mostrar_estado(Jugador *jugador) {
     printf("4. Derecha\n") ;
 }
 
+void recoger_items(Jugador *jugador) {
+  char nombre[50] ;
+  printf("Nombre del item a recoger: ") ;
+  scanf(" %49s", nombre) ;
+  List* items = jugador->escenario_actual->items ;
+  Item *item = list_first(items) ;
+  for (item ; item != NULL ; item = list_next(items)) {
+    if (strcmp(item->nombre, nombre) == 0) {
+      list_pushBack(jugador->inventario, item) ;
+      list_popCurrent(items) ;
+      jugador->tiempo-- ;
+      printf("%s agregado al inventario.\n", nombre) ;
+      return ;
+    }
+  }
+  printf("Item no encontrado.\n") ;
+}
+
+
 void iniciar_partida() {
   Jugador jugador ;
   jugador.tiempo = MAX_TIEMPO ;
@@ -143,9 +162,9 @@ void iniciar_partida() {
     printf("\n1. Recoger item\n2. Descartar item\n3. Mover\n4. Reiniciar\n5. Salir\nOpcion: ") ;
     int opcion ;
     scanf("%d", &opcion) ;
-    
+    //printf("Seleccionaste la opcion: %d", opcion) ;
 
-    if (opcion == 1) printf("Seleccionaste la opcion: %d", opcion) ;//recoger_items(&jugador) ;
+    if (opcion == 1) recoger_items(&jugador) ;
     /*else if (opcion == 2) descartar_items(&jugador) ;
     else if (opcion == 3) {
       printf("Direccion (1. Arriba, 2. Abajo, 3. Izquierda, 4. Derecha): ");
