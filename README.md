@@ -11,3 +11,25 @@ GraphQuest es un juego desarrollado en lenguaje C que representa un laberinto me
 - Calcular el costo de tiempo de los movimientos segun el peso del inventario
 - Condición de victoria al llegar al escenario final antes de agotarse el tiempo.
 - Reiniciar la partida en cualquier momento.
+
+## Cómo compilar y ejecutar
+
+### Requisitos previos:
+- Tener instalado un compilador de C (como `gcc`)
+- El archivo de laberinto `graphquest.csv` debe estar en la carpeta `data/` dentro del directorio del proyecto.
+
+### Pasos para compilar y ejecutar
+1. Descarga el proyecto y descomprimelo en una carpeta en tu computador
+2. Abre una terminal y busca la carpeta del proyecto.
+3. Compila el codigo con el siguiente comando:
+
+```bash
+   gcc tdas/*.c tarea.c -Wno-unused-result -o tarea
+```
+
+### Pasos para ejecutar
+Ejecutar el programa compilado:
+
+```bash
+./tarea
+```
