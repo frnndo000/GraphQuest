@@ -98,8 +98,22 @@ void iniciar_partida() {
   jugador.tiempo = MAX_TIEMPO ;
   jugador.inventario = list_create() ;
   jugador.escenario_actual = buscar_escenario_por_id(1) ;
-  printf("funciona") ;
-  return ;
+  
+  while (1) {
+    if (jugador.tiempo <= 0) {
+      printf("\nSe acabo el tiempo. Has perdido.\n") ; break ;
+    }
+    if (jugador.escenario_actual->es_final) {
+      printf("\nLlegaste al escenario final\n") ;
+      //mostrar_estado(&jugador) ; break;
+    }
+
+    printf("\n1. Recoger item\n2. Descartar item\n3. Mover\n4. Reiniciar\n5. Salir\nOpcion: ") ;
+    int opcion ;
+    scanf("%d", &opcion) ;
+    printf("%d", opcion) ;
+    break ;
+  }
 }
 
 int main() {
