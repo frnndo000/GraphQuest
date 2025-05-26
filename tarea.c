@@ -48,9 +48,10 @@ void leer_escenarios() {
         "Error al abrir el archivo");
     return;
   }
+
   printf("Archivo abierto correctamente\n") ;
 
-  char **campos = leer_linea_csv(archivo, ',') ;
+  char **campos ;
   while ((campos = leer_linea_csv(archivo, ',')) != NULL) {
     Escenario* e = malloc(sizeof(Escenario)) ;
     e->id = atoi(campos[0]) ;
@@ -67,10 +68,13 @@ void leer_escenarios() {
       strcpy(item->nombre, list_first(item_data)) ;
       item->valor = atoi(list_next(item_data)) ;
       item->peso = atoi(list_next(item_data)) ;
+
       list_pushBack(e->items, item) ;
       list_clean(item_data) ;
       free(item_data) ;
     }
+    list_clean(items_raw) ;
+    free(items_raw) ;
 
     e->arriba = atoi(campos[4]) ;
     e->abajo = atoi(campos[5]) ;
@@ -79,9 +83,10 @@ void leer_escenarios() {
     e->es_final = strcmp(campos[8], "Si") == 0 ;
 
     list_pushBack(escenarios, e) ;
-
+    free(campos) ;
   }
   fclose(archivo);
+  printf("Escenarios cargados correctamente\n") ;
 
 }
 
@@ -109,14 +114,28 @@ void iniciar_partida() {
 }
 
 int main() {
-  int opcion ;
-  while (1) { 
+  char input[10];
+  int opcion;
+
+  while (1) {
     printf("\n=== GraphQuest ===\n1. Cargar Laberinto\n2. Iniciar Partida\n3. Salir\nOpcion: ") ;
-    scanf("%d", &opcion) ;
-    if (opcion == 1) leer_escenarios() ;
-    else if (opcion == 2) iniciar_partida() ;
-    else if (opcion == 3) break ;
-    else printf("Opcion invalida.\n") ;
+    if (fgets(input, sizeof(input), stdin) == NULL) {
+      printf("Error al leer entrada.\n") ;
+      continue;
+    }
+
+    opcion = atoi(input) ;
+
+    if (opcion == 1) {
+      leer_escenarios() ;
+    } else if (opcion == 2) {
+      iniciar_partida() ;
+    } else if (opcion == 3) {
+      break ;
+    } else {
+      printf("Opcion invalida.\n") ;
+    }
   }
   return 0 ;
+
 }

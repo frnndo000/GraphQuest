@@ -7,47 +7,42 @@
 char **leer_linea_csv(FILE *archivo, char separador) {
   static char linea[MAX_LINE_LENGTH];
   static char *campos[MAX_FIELDS];
-  char *ptr, *start;
   int idx = 0;
 
-  if (fgets(linea, MAX_LINE_LENGTH, archivo) == NULL) {
-    return NULL; // No hay más líneas para leer
-  }
+  if (fgets(linea, MAX_LINE_LENGTH, archivo) == NULL)
+    return NULL;
 
-  // Eliminar salto de linea
+  // Eliminar salto de línea
   linea[strcspn(linea, "\n")] = '\0';
 
-  ptr = start = linea;
-  while (*ptr) {
-    if (idx >= MAX_FIELDS - 1)
-      break;
+  int dentro_comillas = 0;
+  char *inicio = linea;
+  char *p = linea;
 
-    if (*ptr == '\"') { // Inicio de un campo entrecomillado
-      start = ++ptr;    // Saltar la comilla inicial
-      while (*ptr && !(*ptr == '\"' && *(ptr + 1) == separador))
-        ptr++;
-    } else { // Campo sin comillas
-      start = ptr;
-      while (*ptr && *ptr != separador)
-        ptr++;
+  campos[idx++] = inicio;
+
+  while (*p) {
+    if (*p == '"') {
+      dentro_comillas = !dentro_comillas;
+    } else if (*p == separador && !dentro_comillas) {
+      *p = '\0';
+      if (idx < MAX_FIELDS)
+        campos[idx++] = p + 1;
     }
-
-    if (*ptr) {
-      *ptr = '\0'; // Reemplazar comilla final o separador por terminación
-      ptr++;
-      if (*ptr == separador)
-        ptr++;
-    }
-
-    // Quitar comilla final si existe
-    if (*(ptr - 2) == '\"') {
-      *(ptr - 2) = '\0';
-    }
-
-    campos[idx++] = start;
+    p++;
   }
 
-  campos[idx] = NULL; // Marcar el final del array
+  campos[idx] = NULL;
+
+  // Eliminar comillas externas de cada campo si las tiene
+  for (int i = 0; i < idx; i++) {
+    char *campo = campos[i];
+    if (campo[0] == '"' && campo[strlen(campo) - 1] == '"') {
+      campo[strlen(campo) - 1] = '\0';
+      campos[i] = campo + 1;
+    }
+  }
+
   return campos;
 }
 
