@@ -32,6 +32,14 @@ typedef struct {
 
 List* escenarios ;
 
+Escenario* buscar_escenario_por_id(int id) {
+  Escenario* e = list_first(escenarios) ;
+  for (e ; e != NULL ; e = list_next(escenarios)) {
+    if (e->id == id) return e ;
+  }
+  return NULL ;
+}
+
 void leer_escenarios() {
   FILE *archivo = fopen("data/graphquest.csv", "r");
   if (archivo == NULL) {
@@ -89,7 +97,7 @@ void iniciar_partida() {
   Jugador jugador ;
   jugador.tiempo = MAX_TIEMPO ;
   jugador.inventario = list_create() ;
-  //jugador.escenario_actual = buscar_escenario_por_id(1) ;
+  jugador.escenario_actual = buscar_escenario_por_id(1) ;
   printf("funciona") ;
   return ;
 }
