@@ -32,25 +32,17 @@ typedef struct {
 
 List* escenarios ;
 
-/**
- * Carga canciones desde un archivo CSV
- */
 void leer_escenarios() {
-  // Intenta abrir el archivo CSV que contiene datos de películas
   FILE *archivo = fopen("data/graphquest.csv", "r");
   if (archivo == NULL) {
     perror(
-        "Error al abrir el archivo"); // Informa si el archivo no puede abrirse
+        "Error al abrir el archivo");
     return;
   }
 
   char **campos;
-  // Leer y parsear una línea del archivo CSV. La función devuelve un array de
-  // strings, donde cada elemento representa un campo de la línea CSV procesada.
-  campos = leer_linea_csv(archivo, ','); // Lee los encabezados del CSV
+  campos = leer_linea_csv(archivo, ',');
 
-
-  // Lee cada línea del archivo CSV hasta el final
   while ((campos = leer_linea_csv(archivo, ',')) != NULL) {
     printf("ID: %d\n", atoi(campos[0]));
     printf("Nombre: %s\n", campos[1]);
@@ -89,13 +81,28 @@ void leer_escenarios() {
     free(items);
     
   }
-  fclose(archivo); // Cierra el archivo después de leer todas las líneas
+  fclose(archivo);
 
 }
 
 
 int main() {
-  leer_escenarios();
+  leer_escenarios() ;
+  int opcion ;
+  while (1) { 
+    printf("\n=== GraphQuest ===\n1. Cargar Laberinto\n2. Iniciar Partida\n3. Salir\nOpcion: ") ;
+    scanf("%d", &opcion) ;
+    printf("%d", opcion) ;
+    break ;
+  }
+    /* if (opcion == 1) 
+        leer_escenarios() ;
+    else if (opcion == 2) 
+        iniciar_partida() ;
+    else if (opcion == 3) 
+        break ;
+    else printf("Opcion invalida.\n") ;
+  */
 
-  return 0;
+  return 0 ;
 }
