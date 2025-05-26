@@ -90,7 +90,38 @@ void leer_escenarios() {
 
 }
 
-void mostrar_estado(Jugador *jugador) ;
+void mostrar_estado(Jugador *jugador) {
+  Escenario *e = jugador->escenario_actual ;
+  printf("\n== %s ==\n%s\n", e->nombre, e->descripcion) ;
+  printf("\nItems disponibles:\n") ;
+
+  Item* item = list_first(e->items) ;
+  for (item ; item != NULL; item = list_next(e->items))
+    printf("- %s (%d pts, %d kg)\n", item->nombre, item->valor, item->peso) ;
+
+  printf("Tiempo restante: %d\n", jugador->tiempo) ;
+  printf("Inventario:\n") ;
+
+  int peso = 0 ; 
+  int puntaje = 0 ;
+  
+  for (Item *item = list_first(jugador->inventario); item != NULL; item = list_next(jugador->inventario)) {
+    printf("- %s (%d pts, %d kg)\n", item->nombre, item->valor, item->peso) ;
+    peso += item->peso ;
+    puntaje += item->valor ;
+  }
+  printf("Peso total: %d kg | Puntaje: %d\n", peso, puntaje) ;
+
+  printf("\nOpciones de movimiento:\n") ;
+  if (e->arriba != -1) 
+    printf("1. Arriba") ;
+  if (e->abajo != -1) 
+    printf("2. Abajo\n") ;
+  if (e->izquierda != -1) 
+    printf("3. Izquierda\n") ;
+  if (e->derecha != -1) 
+    printf("4. Derecha\n") ;
+}
 
 void iniciar_partida() {
   Jugador jugador ;
