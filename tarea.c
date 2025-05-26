@@ -90,6 +90,8 @@ void leer_escenarios() {
 
 }
 
+void mostrar_estado(Jugador *jugador) ;
+
 void iniciar_partida() {
   Jugador jugador ;
   jugador.tiempo = MAX_TIEMPO ;
@@ -102,13 +104,15 @@ void iniciar_partida() {
     }
     if (jugador.escenario_actual->es_final) {
       printf("\nLlegaste al escenario final\n") ;
-      //mostrar_estado(&jugador) ; break;
+      mostrar_estado(&jugador) ; break;
     }
+
+    mostrar_estado(&jugador) ;
 
     printf("\n1. Recoger item\n2. Descartar item\n3. Mover\n4. Reiniciar\n5. Salir\nOpcion: ") ;
     int opcion ;
     scanf("%d", &opcion) ;
-    printf("%d", opcion) ;
+    printf("Seleccionaste la opcion: %d", opcion) ;
     break ;
   }
 }
