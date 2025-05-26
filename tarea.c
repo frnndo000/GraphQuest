@@ -7,6 +7,8 @@
 
 #define MAX_TIEMPO 10
 
+// ======== ESTRUCTURAS ========
+
 typedef struct {
   char nombre[50] ;
   int valor ;
@@ -33,6 +35,8 @@ typedef struct {
 
 List* escenarios ;
 
+// ======== FUNCIONES ========
+
 Escenario* buscar_escenario_por_id(int id) {
   Escenario* e = list_first(escenarios) ;
   for (e ; e != NULL ; e = list_next(escenarios)) {
@@ -41,6 +45,7 @@ Escenario* buscar_escenario_por_id(int id) {
   return NULL ;
 }
 
+// Carga los escenarios desde un archivo CSV y construye el grafo
 void leer_escenarios() {
   escenarios = list_create() ;
   FILE *archivo = fopen("data/graphquest.csv", "r");
@@ -91,6 +96,7 @@ void leer_escenarios() {
 
 }
 
+// Muestra el estado actual del jugador
 void mostrar_estado(Jugador *jugador) {
   Escenario *e = jugador->escenario_actual ;
   printf("\n== %s ==\n%s\n", e->nombre, e->descripcion) ;
@@ -124,6 +130,7 @@ void mostrar_estado(Jugador *jugador) {
     printf("4. Derecha\n") ;
 }
 
+// Permite recoger un ítem del escenario actual
 void recoger_items(Jugador *jugador) {
   char nombre[50] ;
   printf("Nombre del item a recoger: ") ;
@@ -145,6 +152,7 @@ void recoger_items(Jugador *jugador) {
   printf("Item no encontrado.\n") ;
 }
 
+// Permite descartar un ítem del inventario
 void descartar_items(Jugador *jugador) {
   char nombre[50] ;
   printf("Nombre del item a descartar: ") ;
@@ -164,6 +172,7 @@ void descartar_items(Jugador *jugador) {
   printf("Item no encontrado.\n") ;
 }
 
+// Calcula el tiempo que cuesta moverse, en función del peso del inventario 
 int calcular_tiempo_movimiento(Jugador *jugador) {
   int peso_total = 0 ;
   Item *item = list_first(jugador->inventario) ;
@@ -174,6 +183,7 @@ int calcular_tiempo_movimiento(Jugador *jugador) {
   return (int)ceil((peso_total + 1) / 10.0) ;
 }
 
+// Mueve al jugador en una dirección válida
 void mover(Jugador *jugador, int direccion) {
   Escenario* e = jugador->escenario_actual ;
   int sig_id = -1 ;
@@ -192,7 +202,7 @@ void mover(Jugador *jugador, int direccion) {
   printf("Te has movido a %s. (-%d tiempo)\n", jugador->escenario_actual->nombre, costo) ;
 }
 
-
+// Funcion principal de la aplicacion
 void iniciar_partida() {
   Jugador jugador ;
   jugador.tiempo = MAX_TIEMPO ;
@@ -231,6 +241,7 @@ void iniciar_partida() {
   }
 }
 
+// Menú principal de la aplicación
 int main() {
   char input[10];
   int opcion;
